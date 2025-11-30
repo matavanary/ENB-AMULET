@@ -3,425 +3,659 @@
   $his_numcard = null;
   if (isset($_GET["his_numcard"])) {
     $his_numcard = $_GET["his_numcard"];
+  }
 ?>
-<?php include("index template/head.php") ?>
-<body id="page-top">  
-  
-<?php
-  $useragent = $_SERVER['HTTP_USER_AGENT'];
-  if(preg_match('/android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$useragent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|e\-|e\/|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(di|rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|xda(\-|2|g)|yas\-|your|zeto|zte\-/i',substr($useragent,0,4)))
-  { 
-?> 
-  <div style="background-color:white;">
-    <h4><center><font color="gray"><b>สถาบันรับรองพระเครื่องเมืองชลฯ</b></font></center></h4>  
-  </div>  
-<?php }else{ ?>
-  <div style="background-color:white;">
-    <h1><center><font color="gray"><b>สถาบันรับรองพระเครื่องเมืองชลฯ</b></font></center></h1>  
-  </div>  
-<?php } ?>  
-  <br>    
-  <!-- <section id="work" class="portfolio-mf sect-pt4 route"> -->
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="title-box text-center">
-            <?php            
-              $sql_history = $conn->prepare("SELECT * FROM tb_history where his_numcard = '$his_numcard'");
-              $sql_history->execute();
-              $result_history = $sql_history->fetchAll();
-              foreach($result_history as $row_history) {
-            ?>
-            <h4 class="title-a"><?php echo $row_history['his_numcard']; ?></h4>
-            <!-- <p class="subtitle-a"></p> -->
-            <?php
-                $useragent = $_SERVER['HTTP_USER_AGENT'];
-                if(preg_match('/android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$useragent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|e\-|e\/|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(di|rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|xda(\-|2|g)|yas\-|your|zeto|zte\-/i',substr($useragent,0,4)))
-                {
-                  $width1="35%";
-                  $width2="65%";
-                }else{
-                  $width1="15%";
-                  $width2="85%";
-                }
-            ?>
-            <style> 
-              table, th, td 
-              { 
-                border:0px solid black; 
-                line-height: 30px;
-              } 
-            </style>
-            <table style="width:100%" class="text-left">
-              <tr>
-                <td width="<?=$width1?>"><b>ประเภท: </b></td>
-                <td width="<?=$width2?>"><?php echo $row_history['his_type']; ?></td>
-              </tr>
-              <tr>
-                <td width="<?=$width1?>"><b>ชื่อพระ: </b></td>
-                <td width="<?=$width2?>"><?php echo $row_history['his_nameproduct']; ?></td>
-              </tr>
-              <tr>
-                <td width="<?=$width1?>"><b>จังหวัด: </b></td>
-                <td width="<?=$width2?>"><?php echo $row_history['his_province']; ?></td>
-              </tr>
-              <tr>
-                <td width="<?=$width1?>"><b>เจ้าของพระ: </b></td>
-                <td width="<?=$width2?>"><?php echo $row_history['his_owner']; ?></td>
-              </tr>
-              <tr>
-                <td width="<?=$width1?>"><b>ราคาประเมิน: </b></td>
-                <td width="<?=$width2?>"><?php if($row_history['his_price']==""){echo "";}else{echo number_format($row_history['his_price'],0);}; ?></td>
-              </tr>
-              <tr>
-                <td width="<?=$width1?>"><b>เบอร์โทรศัพท์: </b></td>
-                <td width="<?=$width2?>"><?php echo $row_history['his_tel']; ?></td>
-              </tr>
-              <tr>
-                <td width="<?=$width1?>"><b>รายละเอียด: </b></td>
-                <td width="<?=$width2?>"><?php echo $row_history['his_detailproduct']; ?></td>
-              </tr>
-            </table>
-            <?php } ?>
-            <div class="line-mf"></div>
-          </div>
-        </div>
-      </div>
-      <div class="demo-gallery">
-        <ul id="lightgallery">
-          <?php	
-            $sql_image = $conn->prepare("select * from tb_history 
-              left join tb_image on tb_image.his_code=tb_history.his_code 
-              where tb_history.his_numcard = '$his_numcard'
-              and tb_image.images != ''
-              and tb_image.image_sort between 1 and 9");
-            $sql_image->execute();
-            $result_image = $sql_image->fetchAll();
-            if(count($result_image) > 0){
-              foreach($result_image as $row_image) {
-                $images = 'a/page/add_card_image/upimg-port/'. $row_image['images'];
-                echo "
-                <li data-responsive='".$images."' data-src='".$images."'
-                  data-sub-html='<h2><font color=yellow>".$row_image["detail1"]."</font></h2><p><h3><font color=white>".$row_image["detail3"]."</font></h3></p>'>
-                  <a href='' >
-                    <div class='work-img work-box'>
-                      <img src='".$images."'  class='img-fluid' style='width:500px;height:262px;'>
-                      <div class='work-content'>
-                        <div class='row'>
-                          <div class='col-sm-9'>
-                            <h2 class='w-title'>".$row_image["detail1"]."</h2>
-                            <div class='w-more'>
-                              <span class='w-ctegory'>".$row_image["detail2"]."</span> / <span class='w-date'>".$row_image["detail3"]."</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>";
-              }
-            }else{
-              echo "<h3 style='text-align:center'>No Image found</h3>";
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สถาบันรับรองพระเครื่องเมืองชลฯ - AMULET CERTIFICATION</title>
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/Logo.png">
+    
+    <!-- Modern CSS Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.0/css/lightgallery-bundle.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Modern Styles -->
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #f59e0b;
+            --accent-color: #10b981;
+            --dark-color: #1f2937;
+            --light-gray: #f8fafc;
+            --border-color: #e5e7eb;
+            --text-dark: #374151;
+            --text-light: #6b7280;
+            --success-color: #059669;
+            --warning-color: #d97706;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        /* Header Styling */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .header-title {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.8rem;
             }
-          ?>
-        </ul>
-      </div>
-      <center><button class="btn btn-primary" type="button" onclick="javascript:location.href='./'">ค้นหาหมายเลขบัตรอื่น ๆ</button></center><br>
-    </div>
-  <!-- </section> -->
-  <?php include("index template/script.php") ?>
-  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-  <div id="preloader"></div>
-  <style>
-    .small {
-      font-size: 11px;
-      color: #999;
-      display: block;
-      margin-top: -10px
-    }
+        }
 
-    .cont {
-      text-align: center;
-    }
+        /* Card Styling */
+        .modern-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
 
-    .demo-gallery>ul {
-      margin-bottom: 0;
-      padding-left: 15px;
-    }
+        .modern-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.3);
+        }
 
-    .demo-gallery>ul>li {
-      margin-bottom: 15px;
-      width: 100;
-      display: inline-block;
-      margin-right: 10px;
-      list-style: outside none none;
-    }
+        .card-header-modern {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .demo-gallery>ul>li a {
-      border: 3px solid #FFF;
-      border-radius: 3px;
-      display: block;
-      overflow: hidden;
-      position: relative;
-      float: left;
-    }
+        .card-header-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="1000,100 1000,0 0,0"/></svg>');
+            background-size: 100% 100%;
+        }
 
-    .demo-gallery>ul>li a:hover .demo-gallery-poster>img {
-      opacity: 1;
-    }
+        .card-header-modern h4 {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
 
-    .demo-gallery>ul>li a .demo-gallery-poster {
-      background-color: rgba(0, 0, 0, 0.1);
-      bottom: 0;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-      -webkit-transition: background-color 0.15s ease 0s;
-      -o-transition: background-color 0.15s ease 0s;
-      transition: background-color 0.15s ease 0s;
-    }
+        .search-section {
+            padding: 3rem;
+        }
 
-    .demo-gallery>ul>li a .demo-gallery-poster>img {
-      left: 50%;
-      margin-left: -10px;
-      margin-top: -10px;
-      opacity: 0;
-      position: absolute;
-      top: 50%;
-      -webkit-transition: opacity 0.3s ease 0s;
-      -o-transition: opacity 0.3s ease 0s;
-      transition: opacity 0.3s ease 0s;
-    }
+        .search-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
 
-    .demo-gallery>ul>li a:hover .demo-gallery-poster {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
+        .form-floating label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
 
-    .demo-gallery .justified-gallery>a>img {
-      -webkit-transition: -webkit-transform 0.15s ease 0s;
-      -moz-transition: -moz-transform 0.15s ease 0s;
-      -o-transition: -o-transform 0.15s ease 0s;
-      transition: transform 0.15s ease 0s;
-      -webkit-transform: scale3d(1, 1, 1);
-      transform: scale3d(1, 1, 1);
-      height: 100%;
-      width: 100%;
-    }
+        .form-control {
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
 
-    .demo-gallery .justified-gallery>a:hover>img {
-      -webkit-transform: scale3d(1.1, 1.1, 1.1);
-      transform: scale3d(1.1, 1.1, 1.1);
-    }
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25);
+            background: white;
+        }
 
-    .demo-gallery .justified-gallery>a:hover .demo-gallery-poster>img {
-      opacity: 1;
-    }
+        .btn-modern {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 15px;
+            padding: 1rem 2.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
 
-    .demo-gallery .justified-gallery>a .demo-gallery-poster {
-      background-color: rgba(0, 0, 0, 0.1);
-      bottom: 0;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-      -webkit-transition: background-color 0.15s ease 0s;
-      -o-transition: background-color 0.15s ease 0s;
-      transition: background-color 0.15s ease 0s;
-    }
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+            color: white;
+        }
 
-    .demo-gallery .justified-gallery>a .demo-gallery-poster>img {
-      left: 50%;
-      margin-left: -10px;
-      margin-top: -10px;
-      opacity: 0;
-      position: absolute;
-      top: 50%;
-      -webkit-transition: opacity 0.3s ease 0s;
-      -o-transition: opacity 0.3s ease 0s;
-      transition: opacity 0.3s ease 0s;
-    }
+        /* Result Card Styling */
+        .result-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
 
-    .demo-gallery .justified-gallery>a:hover .demo-gallery-poster {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
+        .result-header {
+            background: linear-gradient(135deg, var(--success-color), var(--accent-color));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
 
-    .demo-gallery .video .demo-gallery-poster img {
-      height: 48px;
-      margin-left: -24px;
-      margin-top: -24px;
-      opacity: 0.8;
-      width: 48px;
-    }
+        .result-body {
+            padding: 2rem;
+        }
 
-    .demo-gallery.dark>ul>li a {
-      border: 3px solid #04070a;
-    }
-  </style>
-  <script>
-    window.console = window.console || function (t) {};
-  </script>
-  <script>
-    if (document.location.search.match(/type=embed/gi)) {
-      window.parent.postMessage("resize", "*");
-    }
-  </script>
-  <div class="cont">
-    <div>
-      <div class="demo-gallery">
-        <ul id="lightgallery">
+        .info-row {
+            display: flex;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease;
+        }
 
-        </ul>
-      </div>
-    </div>
-  </div>
-  <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/picturefill/2.3.1/picturefill.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.14/js/lightgallery-all.min.js"></script>
-  <script id="rendered-js">
-    $(document).ready(() => {
-      $("#lightgallery").lightGallery({
-        pager: true
-      });
+        .info-row:hover {
+            background-color: var(--light-gray);
+        }
 
-    });
-    //# sourceURL=pen.js
-  </script>
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            min-width: 150px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-label i {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+            width: 20px;
+        }
+
+        .info-value {
+            color: var(--text-light);
+            flex: 1;
+        }
+
+        /* Gallery Styling */
+        .gallery-section {
+            margin-top: 2rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Badge Styling */
+        .price-badge {
+            background: linear-gradient(135deg, var(--warning-color), var(--secondary-color));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .status-badge {
+            background: linear-gradient(135deg, var(--success-color), var(--accent-color));
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .search-section {
+                padding: 2rem 1rem;
+            }
+            
+            .result-body {
+                padding: 1rem;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .info-label {
+                min-width: auto;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="header-title">
+                    <i class="fas fa-certificate me-3"></i>
+                    สถาบันรับรองพระเครื่องเมืองชลฯ
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    <?php if ($his_numcard): ?>
+        <!-- Results Section -->
+        <div class="container">
+            <?php            
+            $sql_history = $conn->prepare("SELECT * FROM tb_history where his_numcard = ?");
+            $sql_history->execute([$his_numcard]);
+            $result_history = $sql_history->fetchAll();
+            
+            if (count($result_history) > 0):
+                foreach($result_history as $row_history):
+            ?>
+            <div class="result-card fade-in">
+                <div class="result-header">
+                    <h3><i class="fas fa-id-card me-2"></i><?php echo htmlspecialchars($row_history['his_numcard']); ?></h3>
+                    <span class="status-badge"><i class="fas fa-check-circle me-1"></i>รับรองแล้ว</span>
+                </div>
+                
+                <div class="result-body">
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-tag"></i>ประเภท:
+                        </div>
+                        <div class="info-value"><?php echo htmlspecialchars($row_history['his_type']); ?></div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-gem"></i>ชื่อพระ:
+                        </div>
+                        <div class="info-value"><?php echo htmlspecialchars($row_history['his_nameproduct']); ?></div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-map-marker-alt"></i>จังหวัด:
+                        </div>
+                        <div class="info-value"><?php echo htmlspecialchars($row_history['his_province']); ?></div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-user"></i>เจ้าของพระ:
+                        </div>
+                        <div class="info-value"><?php echo htmlspecialchars($row_history['his_owner']); ?></div>
+                    </div>
+                    
+                    <?php if (!empty($row_history['his_price'])): ?>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-money-bill-wave"></i>ราคาประเมิน:
+                        </div>
+                        <div class="info-value">
+                            <span class="price-badge">
+                                ฿<?php echo number_format($row_history['his_price'], 0); ?>
+                            </span>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <?php if (!empty($row_history['his_tel'])): ?>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-phone"></i>เบอร์โทรศัพท์:
+                        </div>
+                        <div class="info-value">
+                            <a href="tel:<?php echo $row_history['his_tel']; ?>" class="text-decoration-none">
+                                <?php echo htmlspecialchars($row_history['his_tel']); ?>
+                            </a>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-calendar-alt"></i>วันที่ออกบัตร:
+                        </div>
+                        <div class="info-value"><?php echo htmlspecialchars($row_history['his_datecard']); ?></div>
+                    </div>
+                    
+                    <?php if (!empty($row_history['his_detailproduct'])): ?>
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-info-circle"></i>รายละเอียด:
+                        </div>
+                        <div class="info-value"><?php echo nl2br(htmlspecialchars($row_history['his_detailproduct'])); ?></div>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endforeach; ?>
+
+            <!-- Gallery Section -->
+            <div class="modern-card slide-up">
+                <div class="card-header-modern">
+                    <h4><i class="fas fa-images me-2"></i>ภาพประกอบการรับรอง</h4>
+                </div>
+                
+                <div class="result-body">
+                    <div id="lightgallery" class="gallery-grid">
+                        <?php	
+                        $sql_image = $conn->prepare("select * from tb_history 
+                            left join tb_image on tb_image.his_code=tb_history.his_code 
+                            where tb_history.his_numcard = ?
+                            and tb_image.images != ''
+                            and tb_image.image_sort between 1 and 9");
+                        $sql_image->execute([$his_numcard]);
+                        $result_image = $sql_image->fetchAll();
+                        
+                        if(count($result_image) > 0):
+                            foreach($result_image as $row_image):
+                                $images = 'a/page/add_card_image/upimg-port/'. $row_image['images'];
+                        ?>
+                        <div class="gallery-item" data-src="<?php echo $images; ?>">
+                            <img src="<?php echo $images; ?>" alt="<?php echo htmlspecialchars($row_image['detail1']); ?>">
+                            <div class="gallery-overlay">
+                                <h6><?php echo htmlspecialchars($row_image['detail1']); ?></h6>
+                                <p class="mb-0"><?php echo htmlspecialchars($row_image['detail3']); ?></p>
+                            </div>
+                        </div>
+                        <?php 
+                            endforeach;
+                        else:
+                        ?>
+                        <div class="col-12 text-center py-5">
+                            <i class="fas fa-image fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">ไม่มีรูปภาพประกอบ</p>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <?php else: ?>
+            <div class="modern-card fade-in text-center">
+                <div class="result-body py-5">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h4>ไม่พบข้อมูล</h4>
+                    <p class="text-muted">ไม่พบหมายเลขบัตร "<?php echo htmlspecialchars($his_numcard); ?>" ในระบบ</p>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <div class="text-center mt-4">
+                <a href="./" class="btn-modern">
+                    <i class="fas fa-search me-2"></i>ค้นหาหมายเลขบัตรอื่น
+                </a>
+            </div>
+        </div>
+
+    <?php else: ?>
+        <!-- Search Section -->
+        <div class="container">
+            <div class="modern-card fade-in">
+                <div class="card-header-modern">
+                    <h4><i class="fas fa-search me-2"></i>ตรวจสอบใบรับรองพระเครื่อง</h4>
+                </div>
+                
+                <div class="search-section">
+                    <p class="text-center text-muted mb-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        สำหรับบัตรที่ไม่มี QR Code กรุณากรอกหมายเลขบัตรเพื่อตรวจสอบ
+                    </p>
+                    
+                    <form class="search-form" id="searchForm">
+                        <div class="form-floating mb-4">
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="numcard" 
+                                   name="numcard" 
+                                   placeholder="กรอกเลขที่บัตร..."
+                                   required autocomplete="off">
+                            <label for="numcard">
+                                <i class="fas fa-id-card me-2"></i>เลขที่บัตร
+                            </label>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn-modern" id="searchBtn">
+                                <span class="btn-text">
+                                    <i class="fas fa-search me-2"></i>ตรวจสอบ
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <br><br>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.0/lightgallery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.0/plugins/thumbnail/lg-thumbnail.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.0/plugins/zoom/lg-zoom.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize LightGallery
+            const gallery = document.getElementById('lightgallery');
+            if (gallery) {
+                lightGallery(gallery, {
+                    plugins: [lgThumbnail, lgZoom],
+                    speed: 500,
+                    thumbnail: true,
+                    download: false
+                });
+            }
+
+            // Search form handling
+            $('#searchForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                const numcard = $('#numcard').val().trim();
+                if (!numcard) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'กรุณากรอกเลขที่บัตร',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    return;
+                }
+
+                // Show loading state
+                const searchBtn = $('#searchBtn');
+                const originalText = searchBtn.find('.btn-text').html();
+                searchBtn.find('.btn-text').html('<span class="loading-spinner"></span>กำลังค้นหา...');
+                searchBtn.prop('disabled', true);
+
+                $.ajax({
+                    url: "controllers/chknumcard.php",
+                    type: "POST",
+                    data: { numcard: numcard },
+                    success: function(response) {
+                        const result = JSON.parse(response);
+                        
+                        if (result.statusCode == 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'ค้นหาสำเร็จ',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                window.location.href = `index.php?his_numcard=${numcard}`;
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ไม่พบข้อมูล',
+                                text: 'ไม่พบหมายเลขบัตรที่ค้นหาในระบบ',
+                                confirmButtonColor: '#2563eb'
+                            });
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้',
+                            confirmButtonColor: '#2563eb'
+                        });
+                    },
+                    complete: function() {
+                        // Restore button state
+                        searchBtn.find('.btn-text').html(originalText);
+                        searchBtn.prop('disabled', false);
+                        $('#numcard').focus();
+                    }
+                });
+            });
+
+            // Auto focus on load
+            $('#numcard').focus();
+
+            // Enter key handling
+            $('#numcard').on('keypress', function(e) {
+                if (e.which === 13) {
+                    $('#searchForm').submit();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-<?php }else{ ?>
-  <!doctype html>
-  <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="">
-      <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-      <meta name="generator" content="Hugo 0.98.0">
-      <title>AMULET</title>
-      <link rel="shortcut icon" type="image/x-icon" href="./assets/Logo.png">
-
-      <!-- <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/navbars/"> -->
-      <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
-
-      <style>
-        body {
-          padding-bottom: 20px;
-        }
-
-        .navbar {
-          margin-bottom: 80px;
-        }
-      </style>
-    </head>
-    <body class="bg-light">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-white">
-        <div class="container-fluid">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <?php
-            $useragent = $_SERVER['HTTP_USER_AGENT'];
-            if(preg_match('/android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$useragent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|e\-|e\/|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(di|rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|xda(\-|2|g)|yas\-|your|zeto|zte\-/i',substr($useragent,0,4)))
-            { 
-          ?> 
-          <h2><div style="margin: auto;width: 100%;text-align: center;">สถาบันรับรองพระเครื่องเมืองชลฯ</div></h2>
-          <?php }else{ ?>
-          <div class="collapse navbar-collapse justify-content-md-center">
-            <h1><font color="gray"><b>สถาบันรับรองพระเครื่องเมืองชลฯ</b></font></h1>            
-          </div>
-          <?php } ?>
-        </div>
-      </nav>
-      <div class="container">        
-        <form name="form1" method="post" name="viplogin">
-          <p>
-            <center><font color="red"><b>สำหรับบัตรที่ไม่มี QR Code</b></font></center>
-          </p>
-          <?php
-            $useragent = $_SERVER['HTTP_USER_AGENT'];
-            if(preg_match('/android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$useragent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|e\-|e\/|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(di|rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|xda(\-|2|g)|yas\-|your|zeto|zte\-/i',substr($useragent,0,4)))
-            { 
-          ?>      
-              <div class="col-md-4">          
-                <h3><b><center>เลขที่บัตร</center></b></h3>
-              </div>
-              <div class="col-md-4">          
-                  <input type="text" name="numcard" id="numcard" class="form-control" id="floatingInput" placeholder="กรอกเลขที่บัตร...">
-              </div>
-              <div class="col-sm-4">&nbsp;</div>
-              <div class="col-sm-4">          
-                  <center><button class="btn btn-primary" type="button" value="" id="login">ตรวจสอบ</button></center>
-              </div>
-          <?php }else{ ?>
-            <div class="row">
-              <div class="col-md-4">          
-                <h3 style="text-align: right;"><b>เลขที่บัตร</b></h3>
-              </div>
-              <div class="col-md-4">          
-                  <input type="text" name="numcard" id="numcard" class="form-control" id="floatingInput" placeholder="กรอกเลขที่บัตร...">
-              </div>
-              <div class="col-sm-4">          
-                  <button class="btn btn-primary" type="button" value="" id="login">ตรวจสอบ</button>
-              </div>
-            </div>
-          <?php } ?>
-        </form>
-      </div>
-      <script src="assets/dist/js/bootstrap.bundle.min.js"></script>  
-      <script src="lib/jquery/jquery.min.js"></script>
-      <script src="js/main.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-      <script>    
-        $(document).ready(function () {
-          $('#login').on('click', function () {
-            var numcard = $('#numcard').val();
-            if(numcard == ""){
-              Swal.fire({
-                icon: 'warning',
-                title: 'โปรดกรอกเลขที่บัตร',
-                showConfirmButton: false,
-                timer: 2000,
-                onAfterClose: () => {
-                    setTimeout(() => $("#numcard").focus(), 110);
-                }
-              })
-            }else{
-              $.ajax({
-                url: "controllers/chknumcard.php",
-                type: "POST",
-                data: { numcard: numcard },
-                cache: false,
-                success: function (dataResult) {
-                  var dataResult = JSON.parse(dataResult);
-                  if (dataResult.statusCode == 200) {
-                    Swal.fire({
-                      icon: 'success',
-                      title: 'ค้นหาสำเร็จ',
-                      showConfirmButton: false,
-                      timer: 2000
-                    }).then(() => {
-                        location.assign('index.php?his_numcard='+numcard)
-                    })
-                  } else if (dataResult.statusCode == 201) {
-                    Swal.fire({
-                      icon: 'error',
-                      title: 'ไม่พบหมายเลขบัตรที่ค้นหา',
-                      showConfirmButton: false,
-                      timer: 2000,
-                      onAfterClose: () => {
-                          setTimeout(() => $("#numcard").focus(), 110);
-                      }
-                    })
-                  }
-                }
-              });
-            }
-          });
-        });
-      </script>
-    </body>
-  </html>
-<?php } ?>
