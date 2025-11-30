@@ -1,0 +1,18 @@
+php_value upload_max_filesize 5368709120
+php_value post_max_size 5368709120
+php_value max_execution_time 5000
+php_value max_input_time 5000
+
+RewriteEngine On
+
+# Remove .php
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^([^\.]+)$ $1.php [L]
+
+
+RewriteRule ^([^/]*)/$ ?his_numcard=$1
+# RewriteRule ^([^/]*)$ /home/$1/ [R]
+
+# RewriteCond %{REQUEST_FILENAME} !-f
+
+
