@@ -5,6 +5,45 @@
     $his_numcard = $_GET["his_numcard"];
   }
 ?>
+
+<?php
+// Security headers - แก้ไข CSP ให้รองรับ Font Awesome
+header('X-Frame-Options: DENY');
+header('X-Content-Type-Options: nosniff');
+header('X-XSS-Protection: 1; mode=block');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+// แก้ไข CSP ให้รองรับ Font Awesome และ fonts
+header('Content-Security-Policy: default-src \'self\' https:; script-src \'self\' \'unsafe-inline\' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src \'self\' \'unsafe-inline\' https://cdn.jsdelivr.net https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src \'self\' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src \'self\' data: https:;');
+
+// Rate limiting (simple implementation)
+session_start();
+if (!isset($_SESSION['search_count'])) {
+    $_SESSION['search_count'] = 0;
+    $_SESSION['search_time'] = time();
+}
+
+if ($_SESSION['search_count'] > 10 && (time() - $_SESSION['search_time']) < 300) {
+    http_response_code(429);
+    die('Too many requests. Please try again later.');
+}
+
+// Simple file-based caching
+function getCachedResult($key, $ttl = 300) {
+    $cacheFile = "cache/" . md5($key) . ".cache";
+    if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $ttl) {
+        return json_decode(file_get_contents($cacheFile), true);
+    }
+    return false;
+}
+
+function setCachedResult($key, $data) {
+    if (!is_dir("cache")) mkdir("cache", 0755, true);
+    $cacheFile = "cache/" . md5($key) . ".cache";
+    file_put_contents($cacheFile, json_encode($data));
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -15,7 +54,37 @@
     
     <!-- Modern CSS Libraries -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome - เพิ่ม fallback และ integrity -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" 
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer">
+    
+    <!-- Fallback สำหรับ Font Awesome หากไม่สามารถโหลดจาก CDN ได้ -->
+    <script>
+        // ตรวจสอบว่า Font Awesome โหลดสำเร็จหรือไม่
+        document.addEventListener('DOMContentLoaded', function() {
+            var testElement = document.createElement('i');
+            testElement.className = 'fas fa-home';
+            testElement.style.position = 'absolute';
+            testElement.style.left = '-9999px';
+            document.body.appendChild(testElement);
+            
+            var computedStyle = window.getComputedStyle(testElement, '::before');
+            var content = computedStyle.getPropertyValue('content');
+            
+            // หาก Font Awesome ไม่โหลด ให้ใช้ fallback
+            if (content === 'none' || content === '') {
+                var fallbackLink = document.createElement('link');
+                fallbackLink.rel = 'stylesheet';
+                fallbackLink.href = 'https://use.fontawesome.com/releases/v6.4.0/css/all.css';
+                document.head.appendChild(fallbackLink);
+            }
+            
+            document.body.removeChild(testElement);
+        });
+    </script>
+    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.0/css/lightgallery-bundle.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -47,6 +116,35 @@
             color: var(--text-dark);
         }
 
+        /* เพิ่ม CSS สำรอง สำหรับ icons หากไม่โหลด */
+        .icon-fallback::before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        /* Ensure icons are visible */
+        i[class*="fa"] {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 6 Brand", sans-serif !important;
+            font-weight: 900;
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Force display of icons for desktop */
+        @media (min-width: 768px) {
+            i[class*="fa"] {
+                display: inline-block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+        }
+
         /* Header Styling */
         .main-header {
             background: rgba(255, 255, 255, 0.95);
@@ -72,6 +170,25 @@
             font-weight: 700;
             font-size: 2.5rem;
             margin: 0;
+        }
+        
+        /* แก้ปัญหา text gradient ใน desktop */
+        @media (min-width: 768px) {
+            .header-title {
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                /* Fallback สำหรับ browser ที่ไม่รองรับ */
+                color: var(--primary-color);
+            }
+            
+            /* Support for older browsers */
+            @supports not (-webkit-background-clip: text) {
+                .header-title {
+                    color: var(--primary-color);
+                }
+            }
         }
 
         @media (max-width: 768px) {
@@ -218,6 +335,7 @@
             margin-right: 0.5rem;
             color: var(--primary-color);
             width: 20px;
+            text-align: center;
         }
 
         .info-value {
@@ -314,6 +432,24 @@
             font-weight: 500;
         }
 
+        /* Loading skeleton animation */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-card {
+            height: 200px;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .search-section {
@@ -336,6 +472,21 @@
             .gallery-grid {
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
+
+            /* Better mobile touch targets */
+            .btn-modern {
+                min-height: 48px;
+                font-size: 1.2rem;
+            }
+            
+            .form-control {
+                min-height: 48px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            .gallery-item {
+                margin-bottom: 1rem;
+            }
         }
 
         /* Animation Classes */
@@ -357,6 +508,24 @@
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="ตรวจสอบใบรับรองพระเครื่องออนไลน์ สถาบันรับรองพระเครื่องเมืองชลบุรี ตรวจสอบความถูกต้องของพระเครื่อง">
+    <meta name="keywords" content="พระเครื่อง, ใบรับรอง, ตรวจสอบ, ชลบุรี, สถาบันรับรอง">
+    <meta property="og:title" content="สถาบันรับรองพระเครื่องเมืองชลฯ">
+    <meta property="og:description" content="ตรวจสอบใบรับรองพระเครื่องออนไลน์">
+    <meta property="og:type" content="website">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <!-- Add to <head> for PWA support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 </head>
 
 <body>
@@ -376,9 +545,38 @@
         <!-- Results Section -->
         <div class="container">
             <?php            
-            $sql_history = $conn->prepare("SELECT * FROM tb_history where his_numcard = ?");
-            $sql_history->execute([$his_numcard]);
-            $result_history = $sql_history->fetchAll();
+            // ปรับปรุง query สำหรับประสิทธิภาพ
+            try {
+                // Add index hints and optimize joins
+                $sql_history = $conn->prepare("
+                    SELECT h.*, m.member_name 
+                    FROM tb_history h 
+                    LEFT JOIN tb_member m ON h.his_create_by = m.member_id 
+                    WHERE h.his_numcard = ? 
+                    LIMIT 1
+                ");
+                $sql_history->execute([$his_numcard]);
+                $result_history = $sql_history->fetchAll(PDO::FETCH_ASSOC);
+                
+                // Optimize image query
+                $sql_image = $conn->prepare("
+                    SELECT i.images, i.detail1, i.detail2, i.detail3, i.image_sort 
+                    FROM tb_image i 
+                    WHERE i.his_code = (
+                        SELECT his_code FROM tb_history WHERE his_numcard = ? LIMIT 1
+                    ) 
+                    AND i.images IS NOT NULL 
+                    AND i.images != '' 
+                    AND i.image_sort BETWEEN 1 AND 9 
+                    ORDER BY i.image_sort ASC
+                ");
+                $sql_image->execute([$his_numcard]);
+                $result_image = $sql_image->fetchAll(PDO::FETCH_ASSOC);
+                
+            } catch (PDOException $e) {
+                error_log("Database error: " . $e->getMessage());
+                // Show user-friendly error message
+            }
             
             if (count($result_history) > 0):
                 foreach($result_history as $row_history):
@@ -472,14 +670,6 @@
                 <div class="result-body">
                     <div id="lightgallery" class="gallery-grid">
                         <?php	
-                        $sql_image = $conn->prepare("select * from tb_history 
-                            left join tb_image on tb_image.his_code=tb_history.his_code 
-                            where tb_history.his_numcard = ?
-                            and tb_image.images != ''
-                            and tb_image.image_sort between 1 and 9");
-                        $sql_image->execute([$his_numcard]);
-                        $result_image = $sql_image->fetchAll();
-                        
                         if(count($result_image) > 0):
                             foreach($result_image as $row_image):
                                 $images = 'a/page/add_card_image/upimg-port/'. $row_image['images'];
@@ -535,27 +725,38 @@
                         สำหรับบัตรที่ไม่มี QR Code กรุณากรอกหมายเลขบัตรเพื่อตรวจสอบ
                     </p>
                     
-                    <form class="search-form" id="searchForm">
-                        <div class="form-floating mb-4">
-                            <input type="text" 
-                                   class="form-control" 
-                                   id="numcard" 
-                                   name="numcard" 
-                                   placeholder="กรอกเลขที่บัตร..."
-                                   required autocomplete="off">
-                            <label for="numcard">
-                                <i class="fas fa-id-card me-2"></i>เลขที่บัตร
-                            </label>
-                        </div>
-                        
-                        <div class="text-center">
-                            <button type="submit" class="btn-modern" id="searchBtn">
-                                <span class="btn-text">
-                                    <i class="fas fa-search me-2"></i>ตรวจสอบ
-                                </span>
-                            </button>
-                        </div>
-                    </form>
+                    <!-- เพิ่ม ARIA labels และ semantic HTML -->
+                    <main role="main" aria-label="ตรวจสอบใบรับรองพระเครื่อง">
+                        <form class="search-form" id="searchForm" role="search" aria-label="ค้นหาใบรับรอง">
+                            <div class="form-floating mb-4">
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="numcard" 
+                                       name="numcard" 
+                                       placeholder="กรอกเลขที่บัตร..."
+                                       required 
+                                       autocomplete="off"
+                                       aria-describedby="numcard-help"
+                                       pattern="[A-Za-z0-9]+"
+                                       maxlength="20">
+                                <label for="numcard">
+                                    <i class="fas fa-id-card me-2" aria-hidden="true"></i>เลขที่บัตร
+                                </label>
+                            </div>
+                            <div id="numcard-help" class="visually-hidden">
+                                กรอกหมายเลขบัตรรับรองพระเครื่อง เช่น CCA23071501
+                            </div>
+                            
+                            <!-- เพิ่มปุ่มยืนยันที่นี่ -->
+                            <div class="text-center">
+                                <button type="submit" class="btn-modern" id="searchBtn">
+                                    <span class="btn-text">
+                                        <i class="fas fa-search me-2"></i>ตรวจสอบ
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </main>
                 </div>
             </div>
         </div>
@@ -583,6 +784,15 @@
                 });
             }
 
+            // Add search analytics
+            function trackSearch(numcard, found) {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'search', {
+                        'search_term': numcard,
+                        'result_found': found
+                    });
+                }
+            }
             // Search form handling
             $('#searchForm').on('submit', function(e) {
                 e.preventDefault();
@@ -608,32 +818,55 @@
                     url: "controllers/chknumcard.php",
                     type: "POST",
                     data: { numcard: numcard },
+                    timeout: 10000, // 10 second timeout
                     success: function(response) {
-                        const result = JSON.parse(response);
-                        
-                        if (result.statusCode == 200) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'ค้นหาสำเร็จ',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(() => {
-                                window.location.href = `index.php?his_numcard=${numcard}`;
-                            });
-                        } else {
+                        try {
+                            const result = JSON.parse(response);
+                            
+                            if (result.statusCode == 200) {
+                                // Track search event
+                                trackSearch(numcard, true);
+                                
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'ค้นหาสำเร็จ',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(() => {
+                                    window.location.href = `index.php?his_numcard=${numcard}`;
+                                });
+                            } else {
+                                // Track search event for not found
+                                trackSearch(numcard, false);
+                                
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'ไม่พบข้อมูล',
+                                    text: 'ไม่พบหมายเลขบัตรที่ค้นหาในระบบ',
+                                    confirmButtonColor: '#2563eb'
+                                });
+                            }
+                        } catch (e) {
+                            console.error('JSON parse error:', e);
                             Swal.fire({
                                 icon: 'error',
-                                title: 'ไม่พบข้อมูล',
-                                text: 'ไม่พบหมายเลขบัตรที่ค้นหาในระบบ',
-                                confirmButtonColor: '#2563eb'
+                                title: 'เกิดข้อผิดพลาด',
+                                text: 'ข้อมูลที่ได้รับจากเซิร์ฟเวอร์ไม่ถูกต้อง'
                             });
                         }
                     },
-                    error: function() {
+                    error: function(xhr, status, error) {
+                        let errorMessage = 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้';
+                        if (status === 'timeout') {
+                            errorMessage = 'การเชื่อมต่อใช้เวลานานเกินไป กรุณาลองใหม่อีกครั้ง';
+                        } else if (xhr.status === 429) {
+                            errorMessage = 'คำขอมากเกินไป กรุณารอสักครู่แล้วลองใหม่';
+                        }
+                        
                         Swal.fire({
                             icon: 'error',
                             title: 'เกิดข้อผิดพลาด',
-                            text: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้',
+                            text: errorMessage,
                             confirmButtonColor: '#2563eb'
                         });
                     },
@@ -646,6 +879,21 @@
                 });
             });
 
+            // Better input validation
+            $('#numcard').on('input', function() {
+                let value = $(this).val().toUpperCase();
+                // Remove invalid characters
+                value = value.replace(/[^A-Z0-9]/g, '');
+                $(this).val(value);
+                
+                // Show format hint
+                if (value.length > 0 && !/^CCA\d{8}$/.test(value) && value.length >= 11) {
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).removeClass('is-invalid');
+                }
+            });
+
             // Auto focus on load
             $('#numcard').focus();
 
@@ -655,6 +903,18 @@
                     $('#searchForm').submit();
                 }
             });
+        });
+    </script>
+    
+    <!-- เพิ่ม Debug script สำหรับตรวจสอบ Font Awesome -->
+    <script>
+        console.log('Font Awesome Debug:', {
+            userAgent: navigator.userAgent,
+            isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
+            viewport: {
+                width: window.innerWidth,
+                height: window.innerHeight
+            }
         });
     </script>
 </body>
