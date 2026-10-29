@@ -147,12 +147,19 @@ function setCachedResult($key, $data) {
 
         /* Header Styling */
         .main-header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1020;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            padding: 1rem 0;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 0.85rem 0;
             margin-bottom: 2rem;
+            transition: all 0.3s ease;
         }
 
         .header-content {
@@ -160,6 +167,7 @@ function setCachedResult($key, $data) {
             align-items: center;
             justify-content: center;
             text-align: center;
+            width: 100%;
         }
 
         .header-title {
@@ -167,33 +175,66 @@ function setCachedResult($key, $data) {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            color: var(--primary-color);
             font-weight: 700;
-            font-size: 2.5rem;
+            font-size: clamp(1.2rem, 3.5vw + 0.5rem, 2.3rem);
             margin: 0;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            word-break: break-word;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            text-align: center;
+            max-width: 100%;
+        }
+
+        .header-title i {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 0.9em;
         }
         
-        /* แก้ปัญหา text gradient ใน desktop */
-        @media (min-width: 768px) {
+        /* Support for older browsers */
+        @supports not (-webkit-background-clip: text) {
             .header-title {
-                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                /* Fallback สำหรับ browser ที่ไม่รองรับ */
                 color: var(--primary-color);
             }
-            
-            /* Support for older browsers */
-            @supports not (-webkit-background-clip: text) {
-                .header-title {
-                    color: var(--primary-color);
-                }
+        }
+
+        @media (max-width: 991px) {
+            .header-title {
+                font-size: clamp(1.15rem, 4.5vw, 1.85rem);
             }
         }
 
         @media (max-width: 768px) {
+            .main-header {
+                padding: 0.75rem 0;
+                margin-bottom: 1.5rem;
+            }
             .header-title {
-                font-size: 1.8rem;
+                font-size: clamp(1.1rem, 5vw, 1.6rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-header {
+                padding: 0.55rem 0;
+                margin-bottom: 1rem;
+            }
+            .header-title {
+                font-size: clamp(0.95rem, 5.5vw, 1.25rem);
+            }
+            .header-title i {
+                font-size: 0.85em;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header-title {
+                font-size: 0.9rem;
             }
         }
 
@@ -534,7 +575,7 @@ function setCachedResult($key, $data) {
         <div class="container">
             <div class="header-content">
                 <h1 class="header-title">
-                    <i class="fas fa-certificate me-3"></i>
+                    <i class="fas fa-certificate me-2 me-sm-3"></i>
                     สถาบันรับรองพระเครื่องเมืองชลฯ
                 </h1>
             </div>
@@ -546,36 +587,60 @@ function setCachedResult($key, $data) {
         <div class="container">
             <?php            
             // ปรับปรุง query สำหรับประสิทธิภาพ
+            // ปรับปรุง query สำหรับประสิทธิภาพ และรองรับทั้ง MySQL / SQL Server
             try {
-                // Add index hints and optimize joins
-                $sql_history = $conn->prepare("
-                    SELECT h.*, m.member_name 
-                    FROM tb_history h 
-                    LEFT JOIN tb_member m ON h.his_create_by = m.member_id 
-                    WHERE h.his_numcard = ? 
-                    LIMIT 1
-                ");
-                $sql_history->execute([$his_numcard]);
-                $result_history = $sql_history->fetchAll(PDO::FETCH_ASSOC);
-                
-                // Optimize image query
-                $sql_image = $conn->prepare("
-                    SELECT i.images, i.detail1, i.detail2, i.detail3, i.image_sort 
-                    FROM tb_image i 
-                    WHERE i.his_code = (
-                        SELECT his_code FROM tb_history WHERE his_numcard = ? LIMIT 1
-                    ) 
-                    AND i.images IS NOT NULL 
-                    AND i.images != '' 
-                    AND i.image_sort BETWEEN 1 AND 9 
-                    ORDER BY i.image_sort ASC
-                ");
-                $sql_image->execute([$his_numcard]);
-                $result_image = $sql_image->fetchAll(PDO::FETCH_ASSOC);
-                
+                if (isset($TECHNOLOGY) && $TECHNOLOGY === "sqlsrv") {
+                    $sql_history = $conn->prepare("
+                        SELECT TOP 1 h.*, m.member_name 
+                        FROM tb_history h 
+                        LEFT JOIN tb_member m ON h.his_create_by = m.member_id 
+                        WHERE h.his_numcard = ?
+                    ");
+                    $sql_history->execute([$his_numcard]);
+                    $result_history = $sql_history->fetchAll(PDO::FETCH_ASSOC);
+                    
+                    $sql_image = $conn->prepare("
+                        SELECT i.images, i.detail1, i.detail2, i.detail3, i.image_sort 
+                        FROM tb_image i 
+                        WHERE i.his_code = (
+                            SELECT TOP 1 his_code FROM tb_history WHERE his_numcard = ?
+                        ) 
+                        AND i.images IS NOT NULL 
+                        AND i.images != '' 
+                        AND i.image_sort BETWEEN 1 AND 9 
+                        ORDER BY i.image_sort ASC
+                    ");
+                    $sql_image->execute([$his_numcard]);
+                    $result_image = $sql_image->fetchAll(PDO::FETCH_ASSOC);
+                } else {
+                    $sql_history = $conn->prepare("
+                        SELECT h.*, m.member_name 
+                        FROM tb_history h 
+                        LEFT JOIN tb_member m ON h.his_create_by = m.member_id 
+                        WHERE h.his_numcard = ? 
+                        LIMIT 1
+                    ");
+                    $sql_history->execute([$his_numcard]);
+                    $result_history = $sql_history->fetchAll(PDO::FETCH_ASSOC);
+                    
+                    $sql_image = $conn->prepare("
+                        SELECT i.images, i.detail1, i.detail2, i.detail3, i.image_sort 
+                        FROM tb_image i 
+                        WHERE i.his_code = (
+                            SELECT his_code FROM tb_history WHERE his_numcard = ? LIMIT 1
+                        ) 
+                        AND i.images IS NOT NULL 
+                        AND i.images != '' 
+                        AND i.image_sort BETWEEN 1 AND 9 
+                        ORDER BY i.image_sort ASC
+                    ");
+                    $sql_image->execute([$his_numcard]);
+                    $result_image = $sql_image->fetchAll(PDO::FETCH_ASSOC);
+                }
             } catch (PDOException $e) {
                 error_log("Database error: " . $e->getMessage());
                 // Show user-friendly error message
+                echo "<p>เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล กรุณาลองใหม่ภายหลัง</p>";
             }
             
             if (count($result_history) > 0):
@@ -821,7 +886,7 @@ function setCachedResult($key, $data) {
                     timeout: 10000, // 10 second timeout
                     success: function(response) {
                         try {
-                            const result = JSON.parse(response);
+                            const result = typeof response === 'object' ? response : JSON.parse(response);
                             
                             if (result.statusCode == 200) {
                                 // Track search event

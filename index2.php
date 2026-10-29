@@ -12,9 +12,9 @@
       <div class="col-sm-12">
         <div class="title-box text-center">
           <?php
-            $sql_history = $conn->prepare("SELECT * FROM tb_history where his_numcard = '$his_numcard'");
-            $sql_history->execute();
-            $result_history = $sql_history->fetchAll();
+            $sql_history = $conn->prepare("SELECT * FROM tb_history WHERE his_numcard = ?");
+            $sql_history->execute([$his_numcard]);
+            $result_history = $sql_history->fetchAll(PDO::FETCH_ASSOC);
             foreach($result_history as $row_history) {
           ?>
           <h4 class="title-a"><?php echo $row_history['his_numcard']; ?></h4>
@@ -74,13 +74,14 @@
     </div>
     <div class="demo-gallery">
       <ul id="lightgallery">
-        <?php	
-            $sql_image = $conn->prepare("select * from tb_history 
-              left join tb_image on tb_image.his_code=tb_history.his_code 
-              where tb_history.his_numcard = '$his_numcard'
-              and tb_image.images != ''
-              and tb_image.image_sort between 1 and 9");
-            $sql_image->execute();
+        <?php
+            $sql_image = $conn->prepare("SELECT * FROM tb_history 
+              LEFT JOIN tb_image ON tb_image.his_code = tb_history.his_code 
+              WHERE tb_history.his_numcard = ?
+              AND tb_image.images != ''
+              AND tb_image.image_sort BETWEEN 1 AND 9
+              ORDER BY tb_image.image_sort ASC");
+            $sql_image->execute([$his_numcard]);
             $result_image = $sql_image->fetchAll();
             if(count($result_image) > 0){
               foreach($result_image as $row_image) {
